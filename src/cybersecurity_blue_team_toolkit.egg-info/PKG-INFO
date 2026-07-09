@@ -1,3 +1,27 @@
+Metadata-Version: 2.4
+Name: cybersecurity-blue-team-toolkit
+Version: 0.1.0
+Summary: Enterprise-grade defensive security toolkit for SOC and DFIR teams
+Author: Blue Team Maintainers
+License: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi>=0.115.0
+Requires-Dist: uvicorn>=0.30.0
+Requires-Dist: pydantic>=2.8.0
+Requires-Dist: typer>=0.12.3
+Requires-Dist: rich>=13.7.1
+Requires-Dist: psutil>=6.0.0
+Requires-Dist: PyYAML>=6.0.2
+Requires-Dist: python-jose[cryptography]>=3.3.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.3.2; extra == "dev"
+Requires-Dist: httpx>=0.27.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: ruff>=0.5.7; extra == "dev"
+Dynamic: license-file
+
 # Cybersecurity Blue Team Toolkit
 
 Enterprise-grade, open-source defensive security toolkit for SOC analysts, DFIR teams, and blue team engineers.
@@ -54,7 +78,7 @@ print(jwt.encode({"sub":"soc"}, "development-secret-change-me", algorithm="HS256
 
 ## API Security
 
-- Use an `Authorization` header with a valid bearer JWT for `/api/v1/*` routes.
+- Use `Authorization: ****** for `/api/v1/*` routes.
 - `/health` remains unauthenticated for liveness probes.
 
 ## Docker

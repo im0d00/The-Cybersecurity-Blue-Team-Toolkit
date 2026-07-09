@@ -1,0 +1,2 @@
+2026-07-09T00:00:00Z host=workstation-42 process=powershell.exe cmd="powershell.exe -enc SQBFAFgA"
+connection remote_ip=203.0.113.45 domain=malicious-example.com

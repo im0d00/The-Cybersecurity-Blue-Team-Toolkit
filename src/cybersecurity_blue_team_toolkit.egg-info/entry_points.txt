@@ -1,0 +1,2 @@
+[console_scripts]
+btk = blueteam_toolkit.cli.main:app

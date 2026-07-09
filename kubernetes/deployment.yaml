@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-team-toolkit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-team-toolkit
+  template:
+    metadata:
+      labels:
+        app: blue-team-toolkit
+    spec:
+      containers:
+        - name: api
+          image: blue-team-toolkit:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue-team-toolkit
+spec:
+  selector:
+    app: blue-team-toolkit
+  ports:
+    - port: 80
+      targetPort: 8000

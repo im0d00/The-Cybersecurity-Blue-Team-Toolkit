@@ -1,0 +1,6 @@
+{
+  "incident_id": "IR-2026-001",
+  "severity": "high",
+  "detections": ["encoded_powershell"],
+  "affected_hosts": ["workstation-42"]
+}

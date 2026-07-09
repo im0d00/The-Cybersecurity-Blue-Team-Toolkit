@@ -1,0 +1,15 @@
+title: Suspicious Encoded PowerShell
+id: 2e0f9dce-e709-4d31-8f67-1c2e8beec001
+status: experimental
+description: Detects encoded PowerShell invocation from process telemetry
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    Image: powershell.exe
+    CommandLine: powershell.exe -enc
+tags:
+  - attack.execution
+  - attack.t1059.001
+level: high
