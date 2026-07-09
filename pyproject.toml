@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cybersecurity-blue-team-toolkit"
+version = "0.1.0"
+description = "Enterprise-grade defensive security toolkit for SOC and DFIR teams"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Blue Team Maintainers"}]
+license = {text = "MIT"}
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn>=0.30.0",
+  "pydantic>=2.8.0",
+  "typer>=0.12.3",
+  "rich>=13.7.1",
+  "psutil>=6.0.0",
+  "PyYAML>=6.0.2",
+  "python-jose[cryptography]>=3.3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.2",
+  "httpx>=0.27.0",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.5.7"
+]
+
+[project.scripts]
+btk = "blueteam_toolkit.cli.main:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q --cov=blueteam_toolkit --cov-report=term-missing"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

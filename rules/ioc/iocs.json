@@ -1,0 +1,12 @@
+[
+  {
+    "type": "domain",
+    "value": "malicious-example.com",
+    "source": "threat-feed"
+  },
+  {
+    "type": "ip",
+    "value": "203.0.113.45",
+    "source": "incident-response"
+  }
+]

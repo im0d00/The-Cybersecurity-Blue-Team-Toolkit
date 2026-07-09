@@ -1,0 +1,11 @@
+services:
+  toolkit-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./rules:/app/rules
+      - ./reports:/app/reports
+      - ./logs:/app/logs
