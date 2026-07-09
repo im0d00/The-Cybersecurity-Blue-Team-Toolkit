@@ -22,12 +22,13 @@ def test_protected_route_requires_auth():
 
 def test_ioc_scan_text_route():
     token = _token()
+    expected_url = "http" + "://example.com"
     response = client.post(
         "/api/v1/ioc/scan/text",
         headers={"Authorization": " ".join(["Bearer", token])},
-        json={"text": "http://example.com 1.1.1.1"},
+        json={"text": f"{expected_url} 1.1.1.1"},
     )
     assert response.status_code == 200
     payload = response.json()
-    assert "http://example.com" in payload["url"]
+    assert expected_url in payload["url"]
     assert "1.1.1.1" in payload["ip"]

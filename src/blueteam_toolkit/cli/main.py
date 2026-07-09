@@ -8,9 +8,8 @@ from rich import print
 from blueteam_toolkit.collectors.host import collect_host_information
 from blueteam_toolkit.collectors.logs import collect_logs
 from blueteam_toolkit.collectors.network import collect_network_snapshot
-from blueteam_toolkit.config.settings import settings
 from blueteam_toolkit.ioc.manager import IOCRepository
-from blueteam_toolkit.ioc.scanner import scan_file_for_iocs, scan_text_for_iocs
+from blueteam_toolkit.ioc.scanner import scan_bytes_for_iocs, scan_text_for_iocs
 from blueteam_toolkit.reporting.generator import generate_report
 from blueteam_toolkit.sigma.engine import run_rules
 from blueteam_toolkit.yara.engine import lightweight_scan, validate_rule_file
@@ -46,7 +45,7 @@ def ioc_scan_text(text: str) -> None:
 
 @app.command()
 def ioc_scan_file(path: str) -> None:
-    print(scan_file_for_iocs(path))
+    print(scan_bytes_for_iocs(Path(path).read_bytes()))
 
 
 @app.command()
@@ -82,5 +81,5 @@ def sigma_detect(rule: list[str], event_json: str) -> None:
 @app.command()
 def report(input_json: str, base_name: str = "incident") -> None:
     data = json.loads(Path(input_json).read_text(encoding="utf-8"))
-    outputs = generate_report(data, settings.reports_dir, base_name)
+    outputs = generate_report(data, base_name)
     print(outputs)

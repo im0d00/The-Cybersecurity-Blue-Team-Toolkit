@@ -1,3 +1,4 @@
+import base64
 from collections import defaultdict
 from datetime import UTC, datetime
 from typing import Annotated
@@ -11,7 +12,7 @@ from blueteam_toolkit.collectors.host import collect_host_information
 from blueteam_toolkit.collectors.logs import collect_logs
 from blueteam_toolkit.collectors.network import collect_network_snapshot
 from blueteam_toolkit.config.settings import settings
-from blueteam_toolkit.ioc.scanner import scan_file_for_iocs, scan_text_for_iocs
+from blueteam_toolkit.ioc.scanner import scan_bytes_for_iocs, scan_text_for_iocs
 from blueteam_toolkit.reporting.generator import generate_report
 
 app = FastAPI(title=settings.project_name, version="v1")
@@ -24,7 +25,7 @@ class IOCScanTextRequest(BaseModel):
 
 
 class IOCScanFileRequest(BaseModel):
-    path: str
+    content_base64: str
 
 
 class ReportRequest(BaseModel):
@@ -92,9 +93,15 @@ def scan_text(payload: IOCScanTextRequest) -> dict:
 
 @app.post("/api/v1/ioc/scan/file", dependencies=[Depends(_auth)])
 def scan_file(payload: IOCScanFileRequest) -> dict:
-    return scan_file_for_iocs(payload.path)
+    try:
+        file_bytes = base64.b64decode(payload.content_base64, validate=True)
+        return scan_bytes_for_iocs(file_bytes)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail="Invalid base64 content") from exc
 
 
 @app.post("/api/v1/reports", dependencies=[Depends(_auth)])
 def report(payload: ReportRequest) -> dict:
-    return generate_report(payload.data, settings.reports_dir, payload.base_name)
+    return generate_report(payload.data, payload.base_name)

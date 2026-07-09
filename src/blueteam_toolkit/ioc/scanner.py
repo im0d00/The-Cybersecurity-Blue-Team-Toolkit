@@ -1,7 +1,6 @@
 import hashlib
 import ipaddress
 import re
-from pathlib import Path
 
 IOC_PATTERNS = {
     "md5": re.compile(r"\b[a-fA-F0-9]{32}\b"),
@@ -13,8 +12,7 @@ IOC_PATTERNS = {
 }
 
 
-def hash_file(file_path: Path) -> dict[str, str]:
-    data = file_path.read_bytes()
+def _hash_bytes(data: bytes) -> dict[str, str]:
     return {
         "md5": hashlib.md5(data).hexdigest(),
         "sha1": hashlib.sha1(data).hexdigest(),
@@ -39,10 +37,10 @@ def scan_text_for_iocs(text: str) -> dict[str, list[str]]:
     return results
 
 
-def scan_file_for_iocs(file_path: str | Path) -> dict[str, list[str]]:
-    path = Path(file_path)
-    text = path.read_text(encoding="utf-8", errors="ignore")
+def scan_bytes_for_iocs(data: bytes) -> dict[str, list[str]]:
+    text = data.decode("utf-8", errors="ignore")
     iocs = scan_text_for_iocs(text)
-    hashes = hash_file(path)
+    hashes = _hash_bytes(data)
     iocs["file_hashes"] = [f"{algo}:{value}" for algo, value in hashes.items()]
     return iocs
+
