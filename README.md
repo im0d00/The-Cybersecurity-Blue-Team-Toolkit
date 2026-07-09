@@ -14,6 +14,7 @@ Enterprise-grade, open-source defensive security toolkit for SOC analysts, DFIR 
 - FastAPI service with JWT auth and rate limiting
 - Cross-platform CLI for operational workflows
 - Plugin SDK and plugin loader
+- Advanced malware analysis pipeline (static, strings, behavioral, IOC, MITRE, reporting)
 
 ## Repository Layout
 
@@ -37,6 +38,7 @@ Run CLI:
 ```bash
 btk host
 btk ioc-scan-text "powershell -enc aQBlAHgA"
+btk malware-analyze sample_data/report_input.json
 ```
 
 Run API:
@@ -70,3 +72,4 @@ docker compose up --build
 - [CLI Guide](docs/cli.md)
 - [Threat Hunting Guide](docs/threat-hunting.md)
 - [Plugin Guide](docs/plugins.md)
+- [Malware Analysis Guide](docs/malware-analysis-guide.md)
